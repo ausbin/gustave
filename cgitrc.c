@@ -1,6 +1,7 @@
 #include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include "cgitrc.h"
+#include "repo.h"
 
 /* Extract a value from a line of key=value */
 void cgitrc_extract(char *dest, char *src, size_t skip, size_t max) {
