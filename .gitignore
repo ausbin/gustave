@@ -1,0 +1,8 @@
+# binary
+/gustave
+
+# config file
+/cgitrc
+
+# object files
+*.o
