@@ -9,7 +9,7 @@ typedef struct repo {
 
 typedef struct commit {
     repo   *repo;
-    char   hash[20];
+    unsigned char   hash[20];
     char   summary[51];
     time_t  date;
 } commit;

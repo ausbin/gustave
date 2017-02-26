@@ -43,6 +43,7 @@ struct commit_queue {
 static struct commit_queue *new_commit_queue(git_commit *commit) {
     struct commit_queue *queue_entry = malloc(sizeof (struct commit_queue));
     queue_entry->commit = commit;
+    queue_entry->next = NULL;
     return queue_entry;
 }
 
@@ -66,7 +67,7 @@ static void *enqueue(git_commit *commit,
                      struct commit_queue **tail) {
     struct commit_queue *queue_entry = new_commit_queue(commit);
 
-    if (*head = NULL) {
+    if (*head == NULL) {
         *head = queue_entry;
     } else {
         (*tail)->next = queue_entry;
@@ -109,6 +110,7 @@ static int repo_bfs(repo *r, git_commit *start, int n, void (*for_each)(commit *
             }
 
             if (!was_visited) {
+                enqueue(parent, &queue_head, &queue_tail);
                 visited[visited_count++] = parent;
                 for_each(new_commit(r, parent));
             }
