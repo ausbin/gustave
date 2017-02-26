@@ -9,7 +9,10 @@ typedef struct repo {
 
 typedef struct commit {
     repo   *repo;
-    char   hash[40];
+    char   hash[20];
     char   summary[51];
     time_t  date;
 } commit;
+
+char *repo_error();
+int repo_commits(repo *r, int num, void (*for_each)(commit *));
