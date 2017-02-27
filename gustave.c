@@ -48,8 +48,7 @@ int main(int argc, char **argv) {
     while (head != NULL) {
         if (!head->hidden) {
             if (repo_commits(head, 32, add_commit, list)) {
-                fprintf(stderr, "%s\n", repo_error());
-                return 1;
+                fprintf(stderr, "%s: %s\n", head->name, repo_error());
             }
         }
 
