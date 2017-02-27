@@ -9,12 +9,21 @@ int add_commit(commit *c, void *list) {
 }
 
 int main(int argc, char **argv) {
+    static const char default_cgitrc[] = "/etc/cgitrc";
     static const char desired_author[] = "Austin Adams";
+    const char *cgitrc;
     FILE *fp;
     repo *head;
     commit_list *list;
 
-    fp = fopen("cgitrc", "r");
+    /* Use the cgitrc on the command line if supplied */
+    if (argc > 1) {
+        cgitrc = argv[1];
+    } else {
+        cgitrc = default_cgitrc;
+    }
+
+    fp = fopen(cgitrc, "r");
 
     if (fp == NULL) {
         perror("fopen");
