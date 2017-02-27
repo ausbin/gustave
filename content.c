@@ -41,7 +41,7 @@ static int write_commit_content(FILE *fp, commit *c) {
 }
 
 int write_commit(commit *c) {
-    static const char dir[] = "content/commits";
+    static const char dir[] = "content/commit";
     static const char ext[] = ".md";
     char *abbrev_hash = commit_hash_abbrev(c);
 
