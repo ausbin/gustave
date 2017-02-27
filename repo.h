@@ -24,5 +24,6 @@ int repo_commits(repo *r, int num, int (*for_each)(commit *, void *), void *user
 void free_commit(commit *c);
 int commit_compare(commit *a, commit *b);
 char *commit_hash_abbrev(commit *c);
+char *commit_hash_full(commit *c);
 
 #endif

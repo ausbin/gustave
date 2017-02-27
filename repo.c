@@ -96,6 +96,25 @@ char *commit_hash_abbrev(commit *c) {
     return dest;
 }
 
+char *commit_hash_full(commit *c) {
+    char *dest = malloc((40 + 1) * sizeof (char));
+
+    if (dest == NULL) {
+        return NULL;
+    }
+
+    if (sprintf(dest, "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+                c->hash[0],  c->hash[1],  c->hash[2],  c->hash[3],
+                c->hash[4],  c->hash[5],  c->hash[6],  c->hash[7],
+                c->hash[8],  c->hash[9],  c->hash[10], c->hash[11],
+                c->hash[12], c->hash[13], c->hash[14], c->hash[15],
+                c->hash[16], c->hash[17], c->hash[18], c->hash[19]) < 0) {
+        return NULL;
+    }
+
+    return dest;
+}
+
 struct commit_queue {
     git_commit *commit;
     struct commit_queue *next;
