@@ -1,8 +1,11 @@
 Inspector Gustave
 =================
 
-Collects the most recent commits from a set of repositories and writes them as
-content for Hugo.
+Collects the most recent commits from the repositories in a `cgitrc` and writes
+them as content for Hugo.
+
+Because this is a quick script written for me (and in C because I wanted it to
+be as fast as possible), it's not pretty, but improvements are always welcome.
 
 Process
 -------
