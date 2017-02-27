@@ -1,5 +1,8 @@
 #include <time.h>
 
+#ifndef REPO_H
+#define REPO_H
+
 typedef struct repo {
     char name[256];
     char path[256];
@@ -15,4 +18,9 @@ typedef struct commit {
 } commit;
 
 char *repo_error();
-int repo_commits(repo *r, int num, void (*for_each)(commit *));
+int repo_commits(repo *r, int num, int (*for_each)(commit *, void *), void *userdata);
+void free_commit(commit *c);
+int commit_compare(commit *a, commit *b);
+char *commit_hash_abbrev(commit *c);
+
+#endif

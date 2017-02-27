@@ -1,4 +1,6 @@
 #include <git2.h>
+#include <time.h>
+#include <stdio.h>
 #include <string.h>
 #include "repo.h"
 
@@ -33,6 +35,43 @@ static commit *new_commit(repo *r, git_commit *gitcommit) {
 
     result->date = git_commit_time(gitcommit);
     return result;
+}
+
+void free_commit(commit *c) {
+    free(c);
+}
+
+int commit_compare(commit *a, commit *b) {
+    double diff_seconds = difftime(a->date, b->date);
+
+    /* This tedious if prevents truncation/overflow issues */
+    if (diff_seconds < 0) {
+        return -1;
+    } else if (diff_seconds > 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+/* Caller needs to free() */
+char *commit_hash_abbrev(commit *c) {
+    char *dest = malloc((10 + 1) * sizeof (char));
+
+    if (dest == NULL) {
+        return NULL;
+    }
+
+    if (sprintf(dest, "%02x%02x%02x%02x%02x",
+                c->hash[0],
+                c->hash[1],
+                c->hash[2],
+                c->hash[3],
+                c->hash[4]) < 0) {
+        return NULL;
+    }
+
+    return dest;
 }
 
 struct commit_queue {
@@ -76,7 +115,7 @@ static void *enqueue(git_commit *commit,
     *tail = queue_entry;
 }
 
-static int repo_bfs(repo *r, git_commit *start, int n, void (*for_each)(commit *)) {
+static int repo_bfs(repo *r, git_commit *start, int n, int (*for_each)(commit *, void *), void *userdata) {
     int visited_count;
     git_commit **visited;
     struct commit_queue *queue_head, *queue_tail;
@@ -88,7 +127,10 @@ static int repo_bfs(repo *r, git_commit *start, int n, void (*for_each)(commit *
     queue_head = queue_tail = new_commit_queue(start);
     /* Add start to visited */
     visited[visited_count++] = start;
-    for_each(new_commit(r, start));
+
+    if (for_each(new_commit(r, start), userdata)) {
+        return 2;
+    }
 
     while (queue_head != NULL && visited_count < n) {
         git_commit *commit = dequeue(&queue_head, &queue_tail);
@@ -112,7 +154,10 @@ static int repo_bfs(repo *r, git_commit *start, int n, void (*for_each)(commit *
             if (!was_visited) {
                 enqueue(parent, &queue_head, &queue_tail);
                 visited[visited_count++] = parent;
-                for_each(new_commit(r, parent));
+
+                if (for_each(new_commit(r, parent), userdata)) {
+                    return 2;
+                }
             }
         }
     }
@@ -124,7 +169,7 @@ static int repo_bfs(repo *r, git_commit *start, int n, void (*for_each)(commit *
     return 1;
 }
 
-int repo_commits(repo *r, int num, void (*for_each)(commit *)) {
+int repo_commits(repo *r, int num, int (*for_each)(commit *, void *), void *userdata) {
     git_repository *gitrepo;
     git_reference *headref;
     git_object *obj;
@@ -143,7 +188,7 @@ int repo_commits(repo *r, int num, void (*for_each)(commit *)) {
         goto git_error;
 
     /* repo_bfs() sets current_error itself on failure */
-    if (repo_bfs(r, head, num, for_each))
+    if (repo_bfs(r, head, num, for_each, userdata))
         return 2;
 
     return 0;
