@@ -1,0 +1,241 @@
+#
+# cgit config
+# see cgitrc(5) for details
+
+#css=/cgit-css/cgit.css
+#css=/cgit-css/cgit-highlight.css
+#logo=/cgit-css/cgit.png
+logo-link=https://austinjadams.com/
+# 64x64
+logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wsKAjUGfwdmwgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAUUlEQVRo3u3PMQ0AMAgAMJh/jbjgZio4SFoHzeqJy14cJyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgILDvA1enA1Lxi0haAAAAAElFTkSuQmCC
+# 96x96
+#logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAIAAABt+uBvAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wsKAjgGyqkYjwAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAjklEQVR42u3QIQEAMAgAsPP+GWmBhgRY1BZhkdWP3VcgSJAgQYIECRKEIEGCBAkSJEgQggQJEiRIkCBBCBIkSJAgQYIECUKQIEGCBAkSJAhBggQJEiRIkCAECRIkSJAgQYIEIUiQIEGCBAkShCBBggQJEiRIEIIECRIkSJAgQYIQJEiQIEGCBAlCkCBBdwbFoQOSofjgcAAAAABJRU5ErkJggg==
+
+# my super-kewl patches to cgit
+github-user=ausbin
+enable-github-tab=1
+
+# Serve PDFs without the "Content-Security-Policy: default-src 'none'" header
+enable-html-serving=1
+
+virtual-root=/
+root-title=austin's code
+root-desc=s/code/hacks
+repository-sort=age
+snapshots=tar.gz tar.xz
+
+# remove ssh clone url for now
+#clone-url=https://$HTTP_HOST/$CGIT_REPO_URL.git https://github.com/ausbin/$CGIT_REPO_URL.git git@github.com:ausbin/$CGIT_REPO_URL.git
+clone-url=https://$HTTP_HOST/$CGIT_REPO_URL https://github.com/ausbin/$CGIT_REPO_URL.git
+#about-filter=/usr/local/bin/about-markdown
+about-filter=/usr/local/lib/cgit/filters/about-formatting.sh
+#source-filter=/usr/lib/cgit/filters/syntax-highlighting-v3.sh
+source-filter=/usr/local/lib/cgit/filters/syntax-highlighting-v3.sh
+
+# mimetypes
+mimetype.gif=image/gif
+mimetype.html=text/html
+mimetype.jpg=image/jpeg
+mimetype.jpeg=image/jpeg
+mimetype.pdf=application/pdf
+mimetype.png=image/png
+
+# repositories
+
+repo.url=nsdo
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=run a command in a Linux network namespace
+repo.path=/var/www/git/nsdo
+
+repo.url=mccmd
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=craftbukkit integration with systemd
+repo.path=/var/www/git/mccmd
+
+repo.url=motd
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=Bukkit plugin for changing the motd
+repo.path=/var/www/git/motd
+
+#repo.url=test
+#repo.owner=Austin Adams
+#repo.readme=:README.md
+#repo.desc=testing `go get' with code.austinjadams.com
+#repo.path=/var/www/git/test
+
+repo.url=cgit
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=custom tweaks to cgit
+repo.path=/var/www/git/cgit
+repo.defbranch=readme
+
+repo.url=execd
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=collect a command's output from a container
+repo.path=/var/www/git/execd
+
+repo.url=toolbag
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=dynamic tools for my website
+repo.path=/var/www/git/toolbag
+
+repo.url=paypal-tools
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=my php5.3-compatible fork of brandon wamboldt's paypal-tools
+repo.path=/var/www/git/paypal-tools
+repo.defbranch=php53
+repo.hide=1
+
+repo.url=neo-pinestraw
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=php script for troop 200 pinestraw 2016 form
+repo.path=/var/www/git/neo-pinestraw
+repo.hide=1
+
+repo.url=bluecard
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=an app for managing your bluecards
+repo.path=/var/www/git/bluecard
+repo.hide=1
+
+repo.url=django-treebeard
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=Efficient tree implementations for Django
+repo.path=/var/www/git/django-treebeard
+repo.defbranch=search-reorder
+repo.hide=1
+
+repo.url=ksu-grade-scraper
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=scrapes final grades from Owl Express, texts you updates
+repo.path=/var/www/git/ksu-grade-scraper
+repo.hide=1
+
+repo.url=cs1301
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=Work for CS 1301 at Kennesaw State University
+repo.path=/var/www/git/cs1301
+repo.hide=1
+
+repo.url=mediagoblin
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=my fork of GNU Mediagoblin, a free media-publishing tool
+repo.path=/var/www/git/mediagoblin
+repo.hide=1
+
+repo.url=cs1302
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=Work for CS 1302 at Kennesaw State University
+repo.path=/var/www/git/cs1302
+repo.hide=1
+
+repo.url=webzone
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=static portion of my personal webzone
+repo.path=/var/www/git/webzone
+
+repo.url=blog
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=source for my hugo blog
+repo.path=/var/www/git/blog
+repo.homepage=https://austinjadams.com/blog/
+
+repo.url=cs1332
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=Work for CS 1332 at Georgia Tech
+repo.path=/var/www/git/cs1332
+repo.hide=1
+
+repo.url=math3406
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=coursework for MATH 3406 at Georgia Tech
+repo.path=/var/www/git/math3406
+repo.hide=1
+
+repo.url=cs2050
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=Coursework for CS 2050 at Georgia Tech
+repo.path=/var/www/git/cs2050
+repo.hide=1
+
+repo.url=gong
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=a web git repository viewer written in go
+repo.path=/var/www/git/gong
+
+repo.url=math3012
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=Work for MATH 3012 at Georgia Tech
+repo.path=/var/www/git/math3012
+repo.hide=1
+
+repo.url=cs2340
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=Coursework for CS 2340 at Georgia Tech
+repo.path=/var/www/git/cs2340
+repo.hide=1
+
+repo.url=canteen-app
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=CS 2340 Final Group Project
+repo.path=/var/www/git/canteen-app
+repo.hide=1
+
+repo.url=go-source-highlight
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=Simple Go wrapper for GNU Source-highlight
+repo.path=/var/www/git/go-source-highlight
+repo.hide=1
+
+repo.url=cv
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=my résumé
+repo.path=/var/www/git/cv
+repo.hide=1
+
+repo.url=adamst/neo-pinestraw
+repo.owner=Todd Adams
+repo.readme=:README.md
+repo.desc=php script for troop 200 pinestraw 2016 form (Todd Adams's fork)
+repo.path=/var/www/git/adamst/neo-pinestraw
+repo.hide=1
+repo.clone-url=https://$HTTP_HOST/$CGIT_REPO_URL 
+
+repo.url=cs3510
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=work for CS 3510 at Georgia Tech
+repo.path=/var/www/git/cs3510
+repo.hide=1
+
+repo.url=cs2110
+repo.owner=Austin Adams
+repo.readme=:README.md
+repo.desc=work for CS 2110 at Georgia Tech
+repo.path=/var/www/git/cs2110
+repo.hide=1

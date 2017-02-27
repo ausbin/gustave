@@ -1,6 +1,7 @@
 #include <git2.h>
 #include <time.h>
 #include <stdio.h>
+#include <errno.h>
 #include <string.h>
 #include "repo.h"
 
@@ -12,7 +13,7 @@ void repo_init() {
 
 char *repo_error() {
     if (current_error == NULL) {
-        return NULL;
+        return strerror(errno);
     } else {
         char *result = current_error->message;
         current_error = NULL;
@@ -27,14 +28,35 @@ static commit *new_commit(repo *r, git_commit *gitcommit) {
 
     const char *summary = git_commit_summary(gitcommit);
     if (summary == NULL) {
-        current_error = giterr_last();
-        return NULL;
+        goto git_error;
     }
-    strncpy(result->summary, summary, sizeof result->summary - 1);
-    result->summary[sizeof result->summary - 1] = '\0';
+    result->summary = strdup(summary);
+    if (result->summary == NULL) {
+        goto nongit_error;
+    }
+
+    const git_signature *signature = git_commit_author(gitcommit);
+    if (signature == NULL) {
+        goto git_error;
+    }
+    result->author_name = strdup(signature->name);
+    if (result->summary == NULL) {
+        goto nongit_error;
+    }
+    result->author_email = strdup(signature->email);
+    if (result->summary == NULL) {
+        goto nongit_error;
+    }
 
     result->date = git_commit_time(gitcommit);
     return result;
+
+    git_error:
+    current_error = giterr_last();
+    return NULL;
+
+    nongit_error:
+    return NULL;
 }
 
 void free_commit(commit *c) {

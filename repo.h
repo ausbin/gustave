@@ -11,10 +11,12 @@ typedef struct repo {
 } repo;
 
 typedef struct commit {
-    repo   *repo;
-    unsigned char   hash[20];
-    char   summary[51];
-    time_t  date;
+    repo *repo;
+    unsigned char hash[20];
+    char *author_name;
+    char *author_email;
+    char *summary;
+    time_t date;
 } commit;
 
 char *repo_error();
