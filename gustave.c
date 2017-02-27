@@ -11,6 +11,7 @@ int add_commit(commit *c, void *list) {
 int main(int argc, char **argv) {
     static const char default_cgitrc[] = "/etc/cgitrc";
     static const char desired_author[] = "Austin Adams";
+    static const int max_commits = 8;
     const char *cgitrc;
     FILE *fp;
     repo *head;
@@ -55,8 +56,8 @@ int main(int argc, char **argv) {
     /* Sort commits by age ascending */
     commit_list_sort(list, 1);
 
-    /* Print eight latest commits */
-    for (int i = 0, j = 0; i < list->size && j < 8; i++) {
+    /* Write N latest commits to content/ */
+    for (int i = 0, j = 0; i < list->size && j < max_commits; i++) {
         commit *c = list->list[i];
 
         if (!strcmp(c->author_name, desired_author)) {
