@@ -9,6 +9,7 @@ int add_commit(commit *c, void *list) {
 }
 
 int main(int argc, char **argv) {
+    static const char desired_author[] = "Austin Adams";
     FILE *fp;
     repo *head;
     commit_list *list;
@@ -32,12 +33,10 @@ int main(int argc, char **argv) {
     }
 
     while (head != NULL) {
-        printf("name: %s, path: %s, hidden: %d\n",
-               head->name, head->path, head->hidden);
-
         if (!head->hidden) {
             if (repo_commits(head, 32, add_commit, list)) {
                 fprintf(stderr, "%s\n", repo_error());
+                return 1;
             }
         }
 
@@ -51,7 +50,7 @@ int main(int argc, char **argv) {
     for (int i = 0, j = 0; i < list->size && j < 8; i++) {
         commit *c = list->list[i];
 
-        if (!strcmp(c->author_name, "Austin Adams")) {
+        if (!strcmp(c->author_name, desired_author)) {
             if (write_commit(c)) {
                 perror("write_commit");
                 return 1;
