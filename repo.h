@@ -19,6 +19,7 @@ typedef struct commit {
     time_t date;
 } commit;
 
+void repo_init();
 char *repo_error();
 int repo_commits(repo *r, int num, int (*for_each)(commit *, void *), void *userdata);
 void free_commit(commit *c);

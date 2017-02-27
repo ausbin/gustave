@@ -17,6 +17,9 @@ int main(int argc, char **argv) {
     repo *head;
     commit_list *list;
 
+    /* Initialize libgit2 */
+    repo_init();
+
     /* Use the cgitrc on the command line if supplied */
     if (argc > 1) {
         cgitrc = argv[1];
