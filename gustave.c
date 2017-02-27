@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <string.h>
 #include "cgitrc.h"
 #include "commits.h"
+#include "content.h"
 
 int add_commit(commit *c, void *list) {
     return commit_list_add((commit_list *) list, c);
@@ -46,9 +48,16 @@ int main(int argc, char **argv) {
     commit_list_sort(list, 1);
 
     /* Print eight latest commits */
-    for (int i = 0; i < list->size; i++) {
+    for (int i = 0, j = 0; i < list->size && j < 8; i++) {
         commit *c = list->list[i];
-        printf("%s: %s\n", c->repo->name, commit_hash_abbrev(c));
+
+        if (!strcmp(c->author_name, "Austin Adams")) {
+            if (write_commit(c)) {
+                perror("write_commit");
+                return 1;
+            }
+            j++;
+        }
     }
 
     free_commit_list(list);
