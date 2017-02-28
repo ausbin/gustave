@@ -1,6 +1,33 @@
 #include <time.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "repo.h"
+
+/* Caller must free */
+static char *escape_summary(char *summary) {
+    size_t len = strlen(summary);
+    // Worst-case, we're escaping every single character, so allocate
+    // twice the space of the input string for our escaped string.
+    char *escaped = malloc(2 * len + sizeof '\0');
+
+    if (escaped == NULL) {
+        return NULL;
+    }
+
+    int i, j;
+    for (i = 0, j = 0; i < len; i++, j++) {
+        char c = summary[i];
+        if (c == '\\' || c == '"') {
+            escaped[j] = '\\';
+            j++;
+        }
+        escaped[j] = c;
+    }
+    escaped[j] = '\0';
+
+    return escaped;
+}
 
 static int write_commit_content(FILE *fp, commit *c) {
     static const char date_fmt[] = "%FT%T-00:00";
@@ -16,6 +43,7 @@ static int write_commit_content(FILE *fp, commit *c) {
     "+++\n";
 
     char *commit_hash;
+    char *escaped_summary;
     char formatted_date[sizeof date_fmt_example];
     struct tm *time = gmtime(&c->date);
 
@@ -32,10 +60,17 @@ static int write_commit_content(FILE *fp, commit *c) {
         return 1;
     }
 
-    if (fprintf(fp, fmt, formatted_date, commit_hash,
-                c->summary, c->repo->name) < 0) {
+    escaped_summary = escape_summary(c->summary);
+    if (escaped_summary == NULL) {
         return 1;
     }
+
+    if (fprintf(fp, fmt, formatted_date, commit_hash,
+                escaped_summary, c->repo->name) < 0) {
+        return 1;
+    }
+
+    free(escaped_summary);
 
     return 0;
 }
