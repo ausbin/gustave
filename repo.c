@@ -142,9 +142,9 @@ static git_commit *dequeue(struct commit_queue **head,
     return commit;
 }
 
-static void *enqueue(git_commit *commit,
-                     struct commit_queue **head,
-                     struct commit_queue **tail) {
+static void enqueue(git_commit *commit,
+                    struct commit_queue **head,
+                    struct commit_queue **tail) {
     struct commit_queue *queue_entry = new_commit_queue(commit);
 
     if (*head == NULL) {
