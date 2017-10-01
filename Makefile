@@ -6,13 +6,16 @@ DEPS=$(wildcard *.h)
 SOURCE=$(wildcard *.c)
 OBJ=$(patsubst %.c,%.o,$(SOURCE))
 
-.PHONY: clean
+.PHONY: install clean
 
 $(BINARY): $(OBJ)
 	$(CC) -o $@ $(CFLAGS) $^ $(LIBS)
 
 %.o: %.c $(DEPS)
 	$(CC) -c $(CFLAGS) $<
+
+install:
+	install -Dm755 $(BINARY) /usr/local/bin/
 
 clean:
 	rm -f $(OBJ) $(BINARY)
