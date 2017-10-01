@@ -6,6 +6,7 @@
 typedef struct repo {
     char name[256];
     char path[256];
+    char defbranch[256];
     int hidden;
     struct repo *next;
 } repo;

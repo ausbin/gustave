@@ -22,6 +22,7 @@ void cgitrc_extract(char *dest, char *src, size_t skip, size_t max) {
 int cgitrc_repos(FILE *fp, repo **result) {
     static const char repo_url[] = "repo.url=";
     static const char repo_path[] = "repo.path=";
+    static const char repo_defbranch[] = "repo.defbranch=";
     static const char repo_hide[] = "repo.hide=1\n";
     char line[512];
     repo *head;
@@ -41,6 +42,7 @@ int cgitrc_repos(FILE *fp, repo **result) {
             /* Setup new repo */
             cgitrc_extract(r->name, line, sizeof repo_url - 1, sizeof r->name);
             r->path[0] = '\0';
+            strcpy(r->defbranch, "master");
             r->hidden = 0;
 
             r->next = head;
@@ -49,6 +51,10 @@ int cgitrc_repos(FILE *fp, repo **result) {
 
         if (head != NULL && !strncmp(repo_path, line, sizeof repo_path - 1)) {
             cgitrc_extract(head->path, line, sizeof repo_path - 1, sizeof head->path);
+        }
+
+        if (head != NULL && !strncmp(repo_defbranch, line, sizeof repo_defbranch - 1)) {
+            cgitrc_extract(head->defbranch, line, sizeof repo_defbranch - 1, sizeof head->defbranch);
         }
 
         if (head != NULL && !strncmp(repo_hide, line, sizeof repo_hide)) {

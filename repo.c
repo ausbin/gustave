@@ -219,7 +219,7 @@ int repo_commits(repo *r, int num, int (*for_each)(commit *, void *), void *user
     if (git_repository_open(&gitrepo, r->path))
         goto git_error;
 
-    if (git_branch_lookup(&headref, gitrepo, "master", GIT_BRANCH_LOCAL))
+    if (git_branch_lookup(&headref, gitrepo, r->defbranch, GIT_BRANCH_LOCAL))
         goto git_error;
 
     if (git_reference_peel(&obj, headref, GIT_OBJ_COMMIT))
